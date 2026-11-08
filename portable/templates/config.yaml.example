@@ -1,0 +1,3 @@
+# Minimal LiteLLM config; add model_list entries for your providers.
+model_list: []
+general_settings: {}

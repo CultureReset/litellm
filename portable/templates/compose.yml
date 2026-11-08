@@ -1,0 +1,26 @@
+# component: @NAME@ — digest-pinned to the observed live images. Ports bound to loopback.
+name: ai-stack-litellm
+services:
+  litellm-db:
+    image: postgres@sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d  # postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: litellm
+      POSTGRES_DB: litellm
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in litellm.env}
+    ports: ["127.0.0.1:5433:5432"]
+    volumes: [litellm-db:/var/lib/postgresql/data]
+  litellm:
+    image: ghcr.io/berriai/litellm:v1.105.1@sha256:b7b9e2c306343721802253d0dd9436b9634a2eb4e14da7c7cf06c5c7b7530802
+    restart: unless-stopped
+    depends_on: [litellm-db]
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    environment:
+      DATABASE_URL: postgresql://litellm:${POSTGRES_PASSWORD:?}@litellm-db:5432/litellm
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:?set in litellm.env}
+      LITELLM_SALT_KEY: ${LITELLM_SALT_KEY:?set in litellm.env}
+      STORE_MODEL_IN_DB: "True"
+    env_file: [litellm.env]
+    ports: ["127.0.0.1:4000:4000"]
+    volumes: ["@CONF@/config.yaml:/app/config.yaml:ro"]
+volumes: {litellm-db: {}}
