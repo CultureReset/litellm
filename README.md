@@ -1,3 +1,14 @@
+> **CultureReset fork of [BerriAI/litellm](https://github.com/BerriAI/litellm).** An AI gateway that calls 100+ model APIs in the OpenAI format, with cost tracking, guardrails, load balancing and logging.
+>
+> - **Why it is here:** Source reference for the model gateway NODE uses.
+> - **Does anything run from it:** No. NODE runs the official LiteLLM release, not a build of this fork.
+> - **Changes:** The default branch has no CultureReset commits; it is upstream as of the last sync.
+> - **License:** see upstream; this fork does not change it. For updates and issues, use [upstream](https://github.com/BerriAI/litellm).
+>
+> The upstream README follows unchanged.
+
+---
+
 <h1 align="center">
         🚅 LiteLLM
     </h1>
